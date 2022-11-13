@@ -63,14 +63,15 @@ const obtenerValores = (json) => {
 const token = await obtenerToken();
 
 app.get('/radon', async(request, response) => {
-    const startTs = "1265046352083";
-    const endTs = "1665043961492";
-    const api_url = `http://18.214.103.65:8080/api/plugins/telemetry/DEVICE/101d2fe0-454d-11ed-b4b1-1bcb8f5daa77/values/timeseries?keys=TIMESTAMP,WS,WD,Temp,RH,BP,Depth &startTs=${startTs}&endTs=${endTs}`
-    
+    const startTs = request.query.startTs;
+    const endTs = request.query.endTs;
+    const api_url = `http://18.214.103.65:8080/api/plugins/telemetry/DEVICE/723d0580-452d-11ed-b4b1-1bcb8f5daa77/values/timeseries?keys=Fecha,Radon&startTs=${startTs}&endTs=${endTs}`
     const fetch_response = await fetch(api_url, {
         headers: {"X-Authorization": `Bearer ${token}`}
     });
     const json = await fetch_response.json();
+    const valores = obtenerValores(json);
+    const json_multi = [];
     response.json(json);
 
 })

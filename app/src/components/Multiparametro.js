@@ -22,7 +22,6 @@ export const Multiparametro = () => {
   
   const [fechainicial, setFechainicial] = React.useState([null, null]);
   const [fechafinal, setFechafinal] = React.useState([null, null]);
-  console.log("pico pal que lee");
   return (
     <div>
       <div>
