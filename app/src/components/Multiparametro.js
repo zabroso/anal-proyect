@@ -6,6 +6,7 @@ import 'dayjs/locale/es';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {info} from './data';
+import "../index.css";
 
 
 export const Multiparametro = () => {
@@ -24,31 +25,40 @@ export const Multiparametro = () => {
   const [fechafinal, setFechafinal] = React.useState([null, null]);
   return (
     <div>
-      <div>
-      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'es'}>
-        <DatePicker
-          label="Fecha inicial"
-          value={fechainicial}
-          onChange={(newValue) => {
-            setFechainicial(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </LocalizationProvider>
-      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'es'}>
-        <DatePicker
-          label="Fecha final"
-          value={fechafinal}
-          onChange={(newValue) => {
-            setFechafinal(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </LocalizationProvider>
+      <div class='container'>
+        <div class='item'>
+        <LocalizationProvider class='botones' dateAdapter={AdapterDayjs} adapterLocale={'es'}>
+          <DatePicker
+            label="Fecha inicial"
+            value={fechainicial}
+            onChange={(newValue) => {
+              setFechainicial(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+        </div>
+        <div class='item'> 
+          <LocalizationProvider  class='botones' dateAdapter={AdapterDayjs} adapterLocale={'es'}>
+            <DatePicker
+              label="Fecha final"
+              value={fechafinal}
+              onChange={(newValue) => {
+                setFechafinal(newValue);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        </div>
+        <div class='item'>
+        <button class="button-22" role="button"> Generar </button>
+        </div>
       </div>
-        <div style={{ height: 300, width: '100%' }}>
+      <div class='tabla'>
+        <div style={{ height: 800, width: '70%' }}>
           <DataGrid rows={info} columns={columns} />
         </div>
+      </div>
     </div>
   )
 }
