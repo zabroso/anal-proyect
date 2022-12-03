@@ -1,7 +1,10 @@
 import fetch from "node-fetch";
 import express from "express";
+import cors from "cors";
 
 const app = express();
+app.use(cors())
+
 
 const sensores = {
     radon: {
@@ -85,26 +88,32 @@ app.get('/radon', async(request, response) => {
 
 app.get('/multi', async (request, response) => {
     const startTs = request.query.startTs;
+    console.log(startTs);
     const endTs = request.query.endTs;
+    console.log(endTs);
     const api_url = `http://18.214.103.65:8080/api/plugins/telemetry/DEVICE/101d2fe0-454d-11ed-b4b1-1bcb8f5daa77/values/timeseries?keys=TIMESTAMP,WS,WD,Temp,RH,BP,Depth &startTs=${startTs}&endTs=${endTs}`
     const fetch_response = await fetch(api_url, {
         headers: {"X-Authorization": `Bearer ${token}`}
     });
     const json = await fetch_response.json();
     const valores = obtenerValores(json);
-    const json_multi = [];
-    valores.forEach(element => {
-        const obj = {};
-        obj['id']=element[0];
-        obj['fecha']=element[1];
-        obj['ws']=element[2];
-        obj['wd']=element[3];
-        obj['temp']=element[4];
-        obj['rh']=element[5];
-        obj['bp']=element[6];
-        json_multi.push(obj);
-    });
-    response.json(json_multi);
+    if(valores==={}){
+        response.json([]);
+    }else{
+        const json_multi = [];
+        valores.forEach(element => {
+            const obj = {};
+            obj['id']=element[0];
+            obj['fecha']=element[1];
+            obj['ws']=element[2];
+            obj['wd']=element[3];
+            obj['temp']=element[4];
+            obj['rh']=element[5];
+            obj['bp']=element[6];
+            json_multi.push(obj);
+        });
+        response.json(json_multi);
+    }
 });
 
 app.get('/magee', async (request, response) => {
